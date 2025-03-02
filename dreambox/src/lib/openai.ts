@@ -1,4 +1,17 @@
 import OpenAI from 'openai';
+import { headers } from 'next/headers';
+
+// This is a server-only file
+// Add this line to ensure it's not imported on the client side
+export const dynamic = 'force-dynamic';
+
+// Detect if we're running in a browser environment
+const isBrowser = typeof window !== 'undefined';
+
+// Throw an error if someone tries to import this module in client-side code
+if (isBrowser) {
+  console.warn('OpenAI module should only be imported on the server side');
+}
 
 // Initialize the OpenAI client with API key from environment variables
 const openai = new OpenAI({
@@ -12,6 +25,11 @@ const openai = new OpenAI({
  */
 export async function enhanceDreamDescription(dreamText: string): Promise<string> {
   try {
+    // Ensure this is running server-side
+    if (isBrowser) {
+      throw new Error('This function must be called from a server endpoint');
+    }
+
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY) {
       console.warn('OpenAI API key not found. Using mock response for development.');
@@ -52,6 +70,11 @@ export async function enhanceDreamDescription(dreamText: string): Promise<string
  */
 export async function generateSoraPrompt(enhancedDream: string): Promise<string> {
   try {
+    // Ensure this is running server-side
+    if (isBrowser) {
+      throw new Error('This function must be called from a server endpoint');
+    }
+
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY) {
       console.warn('OpenAI API key not found. Using mock response for development.');
@@ -97,6 +120,11 @@ export async function moderateContent(text: string): Promise<{
   reason?: string;
 }> {
   try {
+    // Ensure this is running server-side
+    if (isBrowser) {
+      throw new Error('This function must be called from a server endpoint');
+    }
+
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY) {
       console.warn('OpenAI API key not found. Using mock response for development.');

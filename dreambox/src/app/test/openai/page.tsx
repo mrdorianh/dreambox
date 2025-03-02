@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { enhanceDreamDescription, generateSoraPrompt, moderateContent } from '@/lib/openai';
 
 export default function OpenAITestPage() {
   const [dreamText, setDreamText] = useState('');
@@ -12,46 +11,48 @@ export default function OpenAITestPage() {
   const [activeTab, setActiveTab] = useState('enhance');
   const [error, setError] = useState<string | null>(null);
 
-  const handleEnhanceDream = async () => {
+  const callOpenAIApi = async (action: string, text: string) => {
     try {
       setLoading(true);
       setError(null);
-      const enhanced = await enhanceDreamDescription(dreamText);
-      setEnhancedDream(enhanced);
+      
+      const response = await fetch('/api/openai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action, text }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to process request');
+      }
+      
+      const data = await response.json();
+      return data.result;
     } catch (error) {
-      console.error('Error enhancing dream:', error);
-      setError('Error enhancing dream. Check console for details.');
+      console.error(`Error in ${action}:`, error);
+      setError(`Error: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      return null;
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEnhanceDream = async () => {
+    const result = await callOpenAIApi('enhance', dreamText);
+    if (result) setEnhancedDream(result);
   };
 
   const handleGeneratePrompt = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const prompt = await generateSoraPrompt(dreamText);
-      setSoraPrompt(prompt);
-    } catch (error) {
-      console.error('Error generating prompt:', error);
-      setError('Error generating prompt. Check console for details.');
-    } finally {
-      setLoading(false);
-    }
+    const result = await callOpenAIApi('prompt', dreamText);
+    if (result) setSoraPrompt(result);
   };
 
   const handleModerateContent = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const result = await moderateContent(dreamText);
-      setModerationResult(result);
-    } catch (error) {
-      console.error('Error moderating content:', error);
-      setError('Error moderating content. Check console for details.');
-    } finally {
-      setLoading(false);
-    }
+    const result = await callOpenAIApi('moderate', dreamText);
+    if (result) setModerationResult(result);
   };
 
   return (
