@@ -38,7 +38,8 @@ const Navigation: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div className="absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+              <div className="absolute w-full h-5 top-full left-0"></div>
+              <div className="absolute left-0 top-full w-48 bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
                 <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                   Main Dashboard
                 </Link>
@@ -54,7 +55,8 @@ const Navigation: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div className="absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+              <div className="absolute w-full h-5 top-full left-0"></div>
+              <div className="absolute left-0 top-full w-48 bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
                 <Link href="/test" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                   TikTok Integration
                 </Link>
