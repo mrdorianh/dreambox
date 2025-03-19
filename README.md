@@ -1,4 +1,8 @@
+
+
 # DreamBox: AI-Powered Dream Visualization Platform
+
+<img width="1687" alt="Screenshot 2025-03-19 at 4 37 30 PM" src="https://github.com/user-attachments/assets/defbdf9b-31cc-43db-9a08-84bdea6b794b" />
 
 ![DreamBox Logo](https://placeholder-for-dreambox-logo.com)
 
